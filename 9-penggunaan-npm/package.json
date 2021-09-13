@@ -1,0 +1,19 @@
+{
+  "name": "9-penggunaan-npm",
+  "version": "1.0.0",
+  "description": "penggunaan npm",
+  "main": "appp.js",
+  "scripts": {
+    "start": "nodemon appp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "harun",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
