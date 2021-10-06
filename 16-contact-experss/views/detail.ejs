@@ -44,43 +44,26 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-md-8">
-                <h2>Daftar Contact</h2>
+                <h2>Detail Contact</h2>
+                <% if (!contact) { %>
+                <div class="alert alert-danger fw-bold" role="alert">
+                    data kontak tidak ada <br><a href="/contact" class="alert-link fw-normal">kembali ke daftar
+                        kontak</a>
+                </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nama</th>
-                            <th scope="col">No Hp</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (contacts.length === 0) { %>
-                        <tr>
-                            <td colspan="4">
-                                <div class="alert alert-danger fw-bold" role="alert">
-                                    data kontak masih kosong
-                                </div>
-                            </td>
-                        </tr>
+                <% } else { %>
 
-                        <% } %>
-                        <% contacts.forEach((contact,i) => { %>
-                        <tr>
-                            <th scope="row"><%= ++i %> </th>
-                            <td><%= contact.nama %> </td>
-                            <td><%= contact.nohp %> </td>
-                            <td>
-                                <a href="/contact/<%= contact.nama %> " class="btn btn-success badge rounded-pill"><i
-                                        class="bi bi-info-circle"></i>
-                                    detail</a>
-                            </td>
-                        </tr>
-                        <% }) %>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= contact.nama %> </h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= contact.nohp %> </h6>
+                        <p class="card-text"><%= contact.email %> </p>
+                        <a href="/contact" class="card-link">&laquo: kembali ke daftar kontak</a>
 
-                    </tbody>
-                </table>
+                    </div>
+                </div>
+
+                <% } %>
             </div>
         </div>
     </div>
