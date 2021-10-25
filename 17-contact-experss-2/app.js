@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const { loadContact, findContact, addContact } = require("./utils/contacts.js");
+const { loadContact, findContact, addContact, cekDuplikat } = require("./utils/contacts.js");
+const { body, validationResult, check } = require("express-validator");
 
 const app = express();
 const port = 3000;
@@ -13,7 +14,7 @@ app.set("view engine", "ejs");
 
 //build-in middleware
 app.use(express.static("public"));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   // res.sendFile("./index.html", { root: __dirname });
@@ -63,10 +64,29 @@ app.get("/contact/add", (req, res) => {
 });
 
 //proses data contak
-app.post("/contact", (req, res) => {
-  addContact(req.body);
-  res.redirect("/contact");
-});
+app.post(
+  "/contact",
+  [
+    body("nama").custom((value) => {
+      const duplikat = cekDuplikat(value);
+      if (duplikat) {
+        throw new Error("Nama kontak sudah digunakan");
+      }
+
+      return true;
+    }),
+    check("email", "email tidak valid").isEmail(),
+    check("nohp", "no hp tidak valid").isMobilePhone("id-ID"),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    addContact(req.body);
+    res.redirect("/contact");
+  }
+);
 
 //halaman detail kontak
 app.get("/contact/:nama", (req, res) => {
@@ -88,4 +108,4 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-console.log("hai");
+console.log("halo, selamat ngoding, semoga harimu menyenangkan...");
